@@ -2,9 +2,11 @@ from sqlalchemy import MetaData, create_engine, select, String, text
 from sqlalchemy.sql import table, literal_column
 import json
 
-# Provide read replica setting available in config or assign to None
+# Replace with database name
 db_name = 'db_name'
-db_base = 'mysql://root:@localhost'
+db_username = 'root'
+db_password = ''
+db_base = 'mysql://{0}:{1}@localhost'.format(db_username, db_password)
 db_config = '{0}/{1}'.format(db_base, db_name)
 
 # destination data type
