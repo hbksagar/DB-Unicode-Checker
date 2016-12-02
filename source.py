@@ -8,7 +8,7 @@ db_username = 'root'
 db_password = ''
 db_host = 'localhost'
 db_base = 'mysql://{0}:{1}@{2}'.format(db_username, db_password, db_host)
-db_config = '{0}/{1}'.format(db_base, db_name)
+db_config = '{0}/{1}?charset=utf8'.format(db_base, db_name)
 
 # destination data type
 d_type = 'ascii'
@@ -38,7 +38,7 @@ def non_ascii_data(table, columns):
             data = {}
             for index, key in enumerate(keys, start=0):
                 if row[index]:
-                    data[key] = row[index]
+                    data[key] = unicode(row[index])
             data_all.append(data)
         return data_all
     except Exception as e:
