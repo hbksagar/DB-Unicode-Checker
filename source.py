@@ -6,7 +6,8 @@ import json
 db_name = 'db_name'
 db_username = 'root'
 db_password = ''
-db_base = 'mysql://{0}:{1}@localhost'.format(db_username, db_password)
+db_host = 'localhost'
+db_base = 'mysql://{0}:{1}@{2}'.format(db_username, db_password, db_host)
 db_config = '{0}/{1}'.format(db_base, db_name)
 
 # destination data type
