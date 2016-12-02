@@ -10,3 +10,12 @@
 
 ## File Execution: 
 ```python source.py```
+
+## Required system packages:
+1. mysql
+2. libmysqlclient-dev
+3. python-dev
+4. pip
+
+## Run:
+pip install -r requirements.txt
