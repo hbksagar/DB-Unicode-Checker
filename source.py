@@ -1,19 +1,13 @@
 from sqlalchemy import MetaData, create_engine, select, String, text
 from sqlalchemy.sql import table, literal_column
 import json
+from config import *
 
 # Replace with database name
-db_name = 'db_name'
-db_username = 'root'
-db_password = ''
-db_host = 'localhost'
 db_base = 'mysql://{0}:{1}@{2}'.format(db_username, db_password, db_host)
 db_config = '{0}/{1}?charset=utf8'.format(db_base, db_name)
 
-# destination data type
-d_type = 'ascii'
-
-def build_condition(columns):
+def build_condition(columns, d_type):
     conditions = []
     for column in columns:
         conditions.append(
@@ -21,15 +15,15 @@ def build_condition(columns):
         )
     return " or ".join(conditions)
 
-def prepare_sql(table, columns):
+def prepare_sql(table, columns, d_type='ascii'):
     return select([
         text(','.join(columns))
     ]).\
-    where(build_condition(columns)).\
+    where(build_condition(columns, d_type)).\
     select_from('{0}.{1}'.format(db_name, table))
 
 def non_ascii_data(table, columns):
-    sql = prepare_sql(table, columns)
+    sql = prepare_sql(table, columns, 'ascii')
     try:
         result = engine.execute(sql)
         keys = result.keys()
