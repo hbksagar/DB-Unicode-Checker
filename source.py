@@ -22,13 +22,13 @@ def build_condition(columns):
 
 def prepare_sql(table, columns):
     return select([
-        text(columns)
+        text(','.join(columns))
     ]).\
-    where(build_condition(tables[table])).\
+    where(build_condition(columns)).\
     select_from('{0}.{1}'.format(db_name, table))
 
 def non_ascii_data(table, columns):
-    sql = prepare_sql(table, ','.join(columns))
+    sql = prepare_sql(table, columns)
     try:
         result = engine.execute(sql)
         keys = result.keys()
@@ -46,7 +46,8 @@ def non_ascii_data(table, columns):
 def non_ascii_data_per_table(tables):
     table_data = {}
     for table in tables:
-        data_all = non_ascii_data(table, tables[table])
+        columns = map(lambda x: '{0}.{1}'.format(table, x), tables[table])
+        data_all = non_ascii_data(table, columns)
         if len(data_all):
             table_data[table] = {}
             table_data[table]['data'] = data_all
