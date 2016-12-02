@@ -13,14 +13,14 @@ def build_condition(columns, d_type):
         conditions.append(
             "{0} != CONVERT({0} USING {1})".format(column, d_type)
         )
-    return " or ".join(conditions)
+    return text(" or ".join(conditions))
 
 def prepare_sql(table, columns, d_type='ascii'):
     return select([
         text(','.join(columns))
     ]).\
     where(build_condition(columns, d_type)).\
-    select_from('{0}.{1}'.format(db_name, table))
+    select_from(text('{0}.{1}'.format(db_name, table)))
 
 def non_ascii_data(table, columns):
     sql = prepare_sql(table, columns, 'ascii')
